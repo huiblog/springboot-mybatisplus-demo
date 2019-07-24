@@ -23,7 +23,9 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("/Users/chikunailaodemac/Documents/gitcode/GenCode");
+        //我的mac配制
+        //gc.setOutputDir("/Users/chikunailaodemac/Documents/gitcode/GenCode");
+        gc.setOutputDir("E:\\mybatisPlusCodeGen");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -56,7 +58,7 @@ public class CodeGenerator {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/mybatis?characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/mybatis?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
         mpg.setDataSource(dsc);
 
 
@@ -104,7 +106,7 @@ public class CodeGenerator {
         };
 
 //        // 自定义 xxList.jsp 生成
-//        List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
+//       List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
 //        focList.add(new FileOutConfig("/template/list.jsp.vm") {
 //            @Override
 //            public String outputFile(TableInfo tableInfo) {
@@ -116,13 +118,16 @@ public class CodeGenerator {
 //        mpg.setCfg(cfg);
 //
 //        // 调整 xml 生成目录演示
-//        focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                return "/develop/code/xml/" + tableInfo.getEntityName() + ".xml";
-//            }
-//        });
-//        cfg.setFileOutConfigList(focList);
+        String projectPath = System.getProperty("user.dir");
+        List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
+        focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/resources/mapper" + tableInfo.getEntityName() + ".xml";
+            }
+        });
+
+        cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
         // 关闭默认 xml 生成，调整生成 至 根目录

@@ -6,8 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhazhahui.springbootmybatisplusdemo.dao.UserMapper;
 import com.zhazhahui.springbootmybatisplusdemo.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Wrapper;
 import java.util.HashMap;
@@ -21,48 +20,41 @@ public class UserController {
     private UserMapper userMapper;
 
     @RequestMapping("/all")
-    public void userTest() {
+    @ResponseBody
+    public List<User> userTest() {
         List<User> list = userMapper.selectList(null);
+        return list;
+    }
 
-        QueryWrapper queryWrapper = new QueryWrapper<User>();
-        queryWrapper.eq("name","zzh");
-        User user = userMapper.selectOne(queryWrapper);
-
-
+    @PostMapping("/user")
+    public void addUser(@RequestBody User user) {
         User user2 = new User();
         user2.setEmail("971302121@qq.com");
         user2.setAge(25);
         user2.setName("渣渣辉");
         userMapper.insert(user2);
         System.out.println("插入成功");
-
-        user.setName("updateName");
-        userMapper.updateById(user);
-
+        userMapper.insert(user);
     }
-
+    
+    /**
+     * @Author 渣渣辉
+     * @Description //分页查询
+     * @Date  2019/7/24 16:02
+     * @Param [pageSize, pageNum] 每页记录数 页码
+     * @return java.util.List<com.zhazhahui.springbootmybatisplusdemo.pojo.User>
+     **/
     @RequestMapping("/page")
-    public void pageSelect(int pageSize,int pageNum){
-
-        Page<User> page = new Page<User>(pageNum ,pageSize);
-
-        IPage<User> userList = userMapper.selectPage(page,null);
-
-
+    public List<User> pageSelect(int pageSize, int pageNum) {
+        Page<User> page = new Page<User>(pageNum, pageSize);
+        IPage<User> userList = userMapper.selectPage(page, null);
         System.out.println("总记录数===" + userList.getTotal());
-
         System.out.println("当前页码===" + userList.getCurrent());
-
         System.out.println("总页码===" + userList.getPages());
-
         System.out.println("每页长度" + userList.getSize());
-
         System.out.println("" + userList);
-
-
+        return userList.getRecords();
     }
-
-
 }
 
 
