@@ -20,12 +20,11 @@ public class CodeGenerator {
         AutoGenerator mpg = new AutoGenerator();
         // 选择 freemarker 引擎，默认 Veloctiy
         // mpg.setTemplateEngine(new FreemarkerTemplateEngine());
-
+        String projectPath = System.getProperty("user.dir");
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         //我的mac配制
-        //gc.setOutputDir("/Users/chikunailaodemac/Documents/gitcode/GenCode");
-        gc.setOutputDir("E:\\mybatisPlusCodeGen");
+        gc.setOutputDir(projectPath + "/src/main/java");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -91,8 +90,9 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.zhazhahui.");
-        pc.setModuleName("springbootmybatisplousdemo");
+        pc.setParent("com.zhazhahui");
+        pc.setModuleName("springbootmybatisplusdemo");
+        pc.setEntity("pojo"); // Entity包位置
         mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】
@@ -118,12 +118,12 @@ public class CodeGenerator {
 //        mpg.setCfg(cfg);
 //
 //        // 调整 xml 生成目录演示
-        String projectPath = System.getProperty("user.dir");
+
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
         focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/resources/mapper" + tableInfo.getEntityName() + ".xml";
+                return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + ".xml";
             }
         });
 
