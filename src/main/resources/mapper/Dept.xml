@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhazhahui.springbootmybatisplusdemo.mapper.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhazhahui.springbootmybatisplusdemo.pojo.Dept">
+        <id column="id" property="id" />
+        <result column="dept_name" property="deptName" />
+        <result column="node" property="node" />
+        <result column="parent" property="parent" />
+    </resultMap>
+
+    <resultMap id="DeptUserList" type="com.zhazhahui.springbootmybatisplusdemo.pojo.Dept">
+        <id column="id" property="id" />
+        <result column="dept_name" property="deptName" />
+        <result column="node" property="node" />
+        <collection property="userList" ofType="com.zhazhahui.springbootmybatisplusdemo.pojo.User">
+
+            <result column="name" property="name"/>
+            <result column="age" property="age"/>
+            <result column="email" property="email"/>
+            <result column="deptId" property="deptId"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getdeptUsers" resultType="com.zhazhahui.springbootmybatisplusdemo.pojo.Dept" parameterType="java.lang.Long">
+        select
+          d.id ,
+          d.dept_name ,
+          d.node,
+          u.age,
+          u.email,
+          u.deptId
+        FROM dept d
+        LEFT JOIN
+           user u
+           ON  d.id = u.deptId
+        where d.id= ${id}
+    </select>
+
+</mapper>
