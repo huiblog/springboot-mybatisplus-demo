@@ -3,7 +3,10 @@ package com.zhazhahui.springbootmybatisplusdemo.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -13,24 +16,29 @@ import java.io.Serializable;
  * @author zhazhahui
  * @since 2019-07-25
  */
+@Data
 public class Dept extends Model<Dept> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "dept_id", type = IdType.AUTO)
-    private Long deptId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     private String deptName;
 
-    private String deptCode;
+    private String node;
+
+    private Long parent;
+
+    private List<User> userList;
 
 
-    public Long getDeptId() {
-        return deptId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDeptName() {
@@ -41,25 +49,34 @@ public class Dept extends Model<Dept> {
         this.deptName = deptName;
     }
 
-    public String getDeptCode() {
-        return deptCode;
+    public String getNode() {
+        return node;
     }
 
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode;
+    public void setNode(String node) {
+        this.node = node;
+    }
+
+    public Long getParent() {
+        return parent;
+    }
+
+    public void setParent(Long parent) {
+        this.parent = parent;
     }
 
     @Override
     protected Serializable pkVal() {
-        return this.deptId;
+        return this.id;
     }
 
     @Override
     public String toString() {
         return "Dept{" +
-        "deptId=" + deptId +
+        "id=" + id +
         ", deptName=" + deptName +
-        ", deptCode=" + deptCode +
+        ", node=" + node +
+        ", parent=" + parent +
         "}";
     }
 }

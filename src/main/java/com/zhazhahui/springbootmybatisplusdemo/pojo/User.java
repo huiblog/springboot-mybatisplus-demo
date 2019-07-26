@@ -3,6 +3,7 @@ package com.zhazhahui.springbootmybatisplusdemo.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 /**
@@ -13,19 +14,32 @@ import java.io.Serializable;
  * @author zhazhahui
  * @since 2019-07-25
  */
-public class User extends Model<User> {
+public class User {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键ID
+     */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    /**
+     * 姓名
+     */
     private String name;
 
+    /**
+     * 年龄
+     */
     private Integer age;
 
+    /**
+     * 邮箱
+     */
     private String email;
 
+    @TableField("dept_id")
     private Long deptId;
 
 
@@ -69,10 +83,6 @@ public class User extends Model<User> {
         this.deptId = deptId;
     }
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
     @Override
     public String toString() {

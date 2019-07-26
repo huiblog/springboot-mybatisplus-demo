@@ -4,9 +4,40 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zhazhahui.springbootmybatisplusdemo.pojo.Dept">
-        <id column="dept_id" property="deptId" />
+        <id column="id" property="id" />
         <result column="dept_name" property="deptName" />
-        <result column="dept_code" property="deptCode" />
+        <result column="node" property="node" />
     </resultMap>
+
+    <resultMap id="DeptUserList" type="com.zhazhahui.springbootmybatisplusdemo.pojo.Dept">
+        <id column="dept_id" property="id" />
+        <result column="dept_name" property="deptName" />
+        <result column="node" property="node" />
+        <collection property="userList" ofType="com.zhazhahui.springbootmybatisplusdemo.pojo.User">
+            <result column="user_name" property="name"/>
+            <result column="user_age" property="age"/>
+            <result column="user_email" property="email"/>
+            <result column="d_id" property="deptId"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getdeptUsers" resultMap="DeptUserList" parameterType="java.lang.Long">
+        SELECT
+            d.dept_id,
+            d.dept_name,
+            d.node,
+            u.name AS user_name,
+            u.age AS user_age,
+            u.email AS user_email,
+            u.dept_id AS d_id
+        FROM
+            dept d
+                LEFT JOIN USER u ON d.dept_id = u.dept_id
+        WHERE
+            d.dept_id = ${id}
+    </select>
+
+
 
 </mapper>

@@ -1,7 +1,10 @@
 package com.zhazhahui.springbootmybatisplusdemo.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.zhazhahui.springbootmybatisplusdemo.mapper.DeptMapper;
+import com.zhazhahui.springbootmybatisplusdemo.pojo.Dept;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
@@ -13,9 +16,26 @@ import org.springframework.stereotype.Controller;
  * @author zhazhahui
  * @since 2019-07-25
  */
-@Controller
-@RequestMapping("/springbootmybatisplusdemo/dept")
+@RestController
+@RequestMapping("/dept")
 public class DeptController {
+
+    @Autowired
+    private DeptMapper deptMapper;
+
+
+    @PostMapping
+    public void add(@RequestBody Dept dept){
+        deptMapper.insert(dept);
+    }
+
+    @GetMapping("/{deptId}")
+    public Dept add(@PathVariable int deptId){
+        return deptMapper.getdeptUsers(Long.valueOf(deptId));
+    }
+
+
+
 
 }
 

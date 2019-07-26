@@ -11,4 +11,12 @@
         <result column="dept_id" property="deptId" />
     </resultMap>
 
+    <select id="getUser" resultType="com.zhazhahui.springbootmybatisplusdemo.pojo.User" parameterType="string">
+        select  * from user where name = #{name}
+    </select>
+
+
+
+
+
 </mapper>
